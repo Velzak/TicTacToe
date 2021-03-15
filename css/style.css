@@ -10,7 +10,37 @@
 /******************************************
 /* LAYOUT
 /*******************************************/
+header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(176, 209, 253);
+  border-radius: 1rem;
+}
 
+h1{
+  font-size: 5rem;
+}
+
+#game{
+  margin: 5rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.button-row{
+  display: flex;
+  flex-direction: column;
+}
+
+button{
+  width: 7rem;
+  height: 7rem;
+  margin: .2rem;
+}
 
 
 /******************************************
