@@ -60,18 +60,18 @@ const game = () => {
   const handleCellPlayed = (clickedCell, clickedCellIndex) => {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
-    if( currentPlayer === 'X') {
+    if (currentPlayer === 'X') {
       document.querySelectorAll('.cell')[clickedCellIndex].style.color = '#E27D60'
     } else {
       document.querySelectorAll('.cell')[clickedCellIndex].style.color = 'lightblue'
     }
   };
 
-  const playerChange = () => { 
+  const playerChange = () => {
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
     statusUpdate.innerHTML = currentPlayerTurn()
   };
-  
+
 
   const winningConiditons = [
     [0, 1, 2],
