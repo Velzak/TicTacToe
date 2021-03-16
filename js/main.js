@@ -1,54 +1,15 @@
-/*TODO
-    -turns for each player
-    -player movement, make the player have a "move" and attribute it to the current turn
-    -
-    --Dont allow an already used gameBoard to be overwritten
-*/
 
-//Creates a Gameboard for keeping the an array of 'X' and '0' as the game is played
-// const GameBoard = (function () {
-//   "use strict";
-
-//   //Private variable for the gameboard player icon placement
-//   let board = ["X", "O", "X", "O", "X", "O", "X", "O", "X"];
-//   return { board };
-// })();
-
-// const Player = (icon) => {
-
-//   const getIcon = () => icon;
-
-//   return {getIcon};
-// };
-
-// //create players
-// const player1 = Player('X');
-// const player2 = Player("O");
-
-// //Flow of the gameboard, decides whos 'turn' it is
-// const game = (function () {
-//     const turn = () => {
-
-//     }
-//     //Control the render of the Game Board, fills in array
-//     const render = () => {
-//         const button = document.querySelectorAll("button");
-//         button.forEach((item) => {
-//           console.log(GameBoard.board.length)
-//             item.innerHTML = GameBoard.board[GameBoard.board.length - 1]
-//         });
-//       }
-//       return {
-//           render,
-//       }
-// })();
-// game.render()
-
+//game object allows for all variables to be private
 const game = () => {
   const statusUpdate = document.querySelector(".game-status");
 
+  //inital game settings, gameActive is the setting of if the game is in play or not 
   let gameActive = true;
+
+  //current player starts as X every time, can be changed to an object if further development allowed.
   let currentPlayer = "X";
+
+  //array of the "cells" used as a gameboard
   let gameState = ["", "", "", "", "", "", "", "", ""];
 
   const winningMessage = () => `Player ${currentPlayer} has won!`;
@@ -57,6 +18,7 @@ const game = () => {
 
   statusUpdate.innerHTML = currentPlayerTurn();
 
+  //Every time a cell is clicked by the player, changes the cell innerHTML to the correct player clicked, as well as changing the color
   const handleCellPlayed = (clickedCell, clickedCellIndex) => {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
@@ -67,12 +29,14 @@ const game = () => {
     }
   };
 
+
+  //changes currentPlayer to allow for player to change from X to O
   const playerChange = () => {
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
     statusUpdate.innerHTML = currentPlayerTurn()
   };
 
-
+  //winning conditions based on the gameState array positions
   const winningConiditons = [
     [0, 1, 2],
     [3, 4, 5],
@@ -84,8 +48,11 @@ const game = () => {
     [2, 4, 6],
   ];
 
+  //checks if the player has won based on winningConditions array, also checks for a draw, otherwise changes players
   const resultConfirm = () => {
     let roundWon = false;
+
+    //checks through every variation of the winning conditions to see if the array has the correct conditions.
     for (let i = 0; i <= 7; i++) {
       const winCondition = winningConiditons[i];
       let a = gameState[winCondition[0]];
@@ -104,21 +71,24 @@ const game = () => {
       gameActive = false;
       return;
     }
+    //if the round has not been won, and the gameboard is filled, go ahead and end the game
     let roundDraw = !gameState.includes('')
     if (roundDraw) {
       statusUpdate.innerHTML = drawMessage()
       gameActive = false
       return
     }
-
+    //if none of the other conditions are met, continue the game
     playerChange();
   };
 
+  //allows for a "cell" to be registed by a click by the event clicked
   const cellClick = (event) => {
     const clickedCell = event.target;
 
     const clickedCellIndex = parseInt(clickedCell.getAttribute("data-cell"));
 
+    //if the current cell has been clicked or the gamestate is not active, do not change the cell
     if (gameState[clickedCellIndex] !== "" || !gameActive) {
       return;
     }
@@ -129,6 +99,7 @@ const game = () => {
 
   document.querySelectorAll(".cell").forEach((cell) => cell.addEventListener("click", cellClick));
 
+  //after a game is won, click the restart game button to reset the variables for a new fresh game.
   const restartGame = () => {
     gameActive = true
     currentPlayer = 'X'
